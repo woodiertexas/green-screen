@@ -4,6 +4,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroup;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.sound.BlockSoundGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
@@ -11,6 +13,8 @@ import org.quiltmc.loader.api.ModContainer;
 import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
+import org.quiltmc.qsl.recipe.api.RecipeManagerHelper;
+import org.quiltmc.qsl.recipe.api.builder.VanillaRecipeBuilders;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,6 +33,16 @@ public class GreenScreen implements ModInitializer {
 		Registry.register(Registry.BLOCK, new Identifier("green_screen", "green_screen_block"), GREEN_SCREEN);
 		Registry.register(Registry.ITEM, new Identifier("green_screen", "green_screen_block"),
 				new BlockItem(GREEN_SCREEN, new QuiltItemSettings().group(ItemGroup.DECORATIONS)));
+
+		RecipeManagerHelper.registerStaticRecipe(
+				VanillaRecipeBuilders.shapedRecipe(
+						"GGG",
+								"GGG",
+								"GGG")
+						.output(new ItemStack(GREEN_SCREEN))
+						.ingredient('G', Items.GREEN_DYE)
+						.build(new Identifier("green_screen", "green_screen_block"), "")
+		);
 
 	}
 }
