@@ -6,7 +6,7 @@
 			"entries": [
 				{
 					"type": "minecraft:item",
-					"name": "green_screen:green_screen_block"
+					"name": "green_screen:blue_screen_block"
 				}
 			],
 			"conditions": [
