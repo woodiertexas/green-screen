@@ -1,6 +1,6 @@
 {
-	"parent": "green_screen:block/screen_block",
+	"parent": "block/cube_all",
 	"textures": {
-		"texture": "green_screen:block/green_screen"
+		"all": "green_screen:block/green_screen"
 	}
 }
