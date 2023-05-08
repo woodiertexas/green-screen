@@ -1,5 +1,5 @@
 {
-	"variants": {
-		"": { "model": "green_screen:block/blue_screen_block" }
-	}
+  "variants": {
+    "": { "model": "green_screen:block/blue_screen_block" }
+  }
 }
