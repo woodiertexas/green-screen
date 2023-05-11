@@ -62,7 +62,7 @@ publishing {
 
 modrinth {
 	token = System.getenv("MODRINTH_TOKEN")
-	projectId = "arch-ex"
+	projectId = "green-screen"
 	uploadFile = remapJar
 	additionalFiles = [sourcesJar]
 	gameVersions = [libs.versions.minecraft.get()]
@@ -70,8 +70,8 @@ modrinth {
 	def ref = System.getenv("GITHUB_REF")
 	changelog = System.getenv("CHANGELOG") ?:
 			(ref != null && ref.startsWith("refs/tags/")) ?
-					"You may view the changelog at https://github.com/woodiertexas/architecture-extensions/releases/tag/${URLEncoder.encode(ref.substring(10), StandardCharsets.UTF_8)}" :
-					"No changelog is available. Perhaps poke at https://github.com/woodiertexas/architecture-extensions for a changelog?"
+					"You may view the changelog at https://github.com/woodiertexas/green-screen/releases/tag/${URLEncoder.encode(ref.substring(10), StandardCharsets.UTF_8)}" :
+					"No changelog is available. Perhaps poke at https://github.com/woodiertexas/green-screen for a changelog?"
 
 	dependencies {
 		required.project "qsl"
