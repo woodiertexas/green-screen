@@ -2,7 +2,6 @@ package io.github.woodiertexas.green_screen;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.block.Block;
-import net.minecraft.block.Material;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.item.ItemStack;
@@ -28,9 +27,9 @@ public class GreenScreen implements ModInitializer {
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger("Green Screen");
 
-	public static final Block RED_SCREEN = new Block(QuiltBlockSettings.of(Material.WOOL).sounds(BlockSoundGroup.WOOL).strength(0.1f).luminance(15).emissiveLighting((state, getter, pos) -> true));
-	public static final Block GREEN_SCREEN = new Block(QuiltBlockSettings.of(Material.WOOL).sounds(BlockSoundGroup.WOOL).strength(0.1f).luminance(15).emissiveLighting((state, getter, pos) -> true));
-	public static final Block BLUE_SCREEN = new Block(QuiltBlockSettings.of(Material.WOOL).sounds(BlockSoundGroup.WOOL).strength(0.1f).luminance(15).emissiveLighting((state, getter, pos) -> true));
+	public static final Block RED_SCREEN = new Block(QuiltBlockSettings.create().sounds(BlockSoundGroup.WOOL).strength(0.1f).luminance(value -> 15).emissiveLighting((state, getter, pos) -> true));
+	public static final Block GREEN_SCREEN = new Block(QuiltBlockSettings.create().sounds(BlockSoundGroup.WOOL).strength(0.1f).luminance(value -> 15).emissiveLighting((state, getter, pos) -> true));
+	public static final Block BLUE_SCREEN = new Block(QuiltBlockSettings.create().sounds(BlockSoundGroup.WOOL).strength(0.1f).luminance(value -> 15).emissiveLighting((state, getter, pos) -> true));
 
 	@Override
 	public void onInitialize(ModContainer mod) {
