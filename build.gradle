@@ -62,7 +62,7 @@ publishing {
 
 modrinth {
 	token = System.getenv("MODRINTH_TOKEN")
-	projectId = "arch-ex"
+	projectId = "green-screen"
 	uploadFile = remapJar
 	additionalFiles = [sourcesJar]
 	gameVersions = [libs.versions.minecraft.get()]
