@@ -33,9 +33,6 @@ public class GreenScreen implements ModInitializer {
 
 	@Override
 	public void onInitialize(ModContainer mod) {
-		LOGGER.info("Hello Quilt world from {}!", mod.metadata().name());
-
-
 		HashMap<Block, String> blocks = new HashMap<>();
 
 		blocks.put(RED_SCREEN, "red_screen_block");
