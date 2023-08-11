@@ -22,9 +22,6 @@ import org.slf4j.LoggerFactory;
 import java.util.HashMap;
 
 public class GreenScreen implements ModInitializer {
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod name as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger("Green Screen");
 
 	public static final Block RED_SCREEN = new Block(QuiltBlockSettings.create().sounds(BlockSoundGroup.WOOL).strength(0.1f).luminance(value -> 15).emissiveLighting((state, getter, pos) -> true));
@@ -51,9 +48,9 @@ public class GreenScreen implements ModInitializer {
 								"RRR",
 								"RRR",
 								"RRR")
-						.output(new ItemStack(GREEN_SCREEN))
+						.output(new ItemStack(RED_SCREEN))
 						.ingredient('R', Items.RED_DYE)
-						.build(new Identifier("red_screen", "blue_screen_block"), "")
+						.build(new Identifier("red_screen", "red_screen_block"), "")
 		);
 
 		RecipeManagerHelper.registerStaticRecipe(
@@ -71,7 +68,7 @@ public class GreenScreen implements ModInitializer {
 						"BBB",
 								"BBB",
 								"BBB")
-						.output(new ItemStack(GREEN_SCREEN))
+						.output(new ItemStack(BLUE_SCREEN))
 						.ingredient('B', Items.BLUE_DYE)
 						.build(new Identifier("blue_screen", "blue_screen_block"), "")
 		);
