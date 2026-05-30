@@ -1,51 +1,63 @@
 package com.woodiertexas;
 
 import net.fabricmc.api.ModInitializer;
-
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroups;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.sound.BlockSoundGroup;
-import net.minecraft.util.Identifier;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTabs;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockBehaviour;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
+import java.util.function.Function;
 
 public class GreenScreen implements ModInitializer {
 	public static final String MOD_ID = "green_screen";
-
-	// This logger is used to write text to the console and the log file.
-	// It is considered best practice to use your mod id as the logger's name.
-	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger("Green Screen");
+	
+	private static ResourceKey<Item> itemKey(String name) {
+		return ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(MOD_ID, name));
+	}
 
-	public static final Block RED_SCREEN = new Block(Block.Settings.create().sounds(BlockSoundGroup.WOOL).strength(0.1f).luminance(value -> 15).emissiveLighting((state, getter, pos) -> true));
-	public static final Block GREEN_SCREEN = new Block(Block.Settings.create().sounds(BlockSoundGroup.WOOL).strength(0.1f).luminance(value -> 15).emissiveLighting((state, getter, pos) -> true));
-	public static final Block BLUE_SCREEN = new Block(Block.Settings.create().sounds(BlockSoundGroup.WOOL).strength(0.1f).luminance(value -> 15).emissiveLighting((state, getter, pos) -> true));
+	private static ResourceKey<Block> blockKey(String name) {
+		return ResourceKey.create(Registries.BLOCK, Identifier.fromNamespaceAndPath(MOD_ID, name));
+	}
+	
+	private static Block registerBlock(String name, Function<BlockBehaviour.Properties, Block> blockFactory, BlockBehaviour.Properties blockSettings, boolean shouldRegisterItem) {
+		ResourceKey<Block> blockKey = blockKey(name);
+		Block block = blockFactory.apply(blockSettings.setId(blockKey));
+		
+		if (shouldRegisterItem) {
+			ResourceKey<Item> itemKey = itemKey(name);
+			BlockItem blockItem = new BlockItem(block, new Item.Properties().setId(itemKey).useBlockDescriptionPrefix());
+			Registry.register(BuiltInRegistries.ITEM, itemKey, blockItem);
+		}
 
+		return Registry.register(BuiltInRegistries.BLOCK, blockKey, block);
+	}
+	
+	static final BlockBehaviour.Properties WOOL_SOUND = BlockBehaviour.Properties.of().sound(SoundType.WOOL);
+	public static final Block RED_SCREEN = registerBlock("red_screen_block", Block::new, WOOL_SOUND, true);
+	public static final Block GREEN_SCREEN = registerBlock("green_screen_block", Block::new, WOOL_SOUND, true);
+	public static final Block BLUE_SCREEN = registerBlock("blue_screen_block", Block::new, WOOL_SOUND, true);
+	
 	@Override
 	public void onInitialize() {
 		// This code runs as soon as Minecraft is in a mod-load-ready state.
 		// However, some things (like resources) may still be uninitialized.
 		// Proceed with mild caution.
 
-		HashMap<Block, String> blocks = new HashMap<>();
-
-		blocks.put(RED_SCREEN, "red_screen_block");
-		blocks.put(GREEN_SCREEN, "green_screen_block");
-		blocks.put(BLUE_SCREEN, "blue_screen_block");
-
-		for (Block block : blocks.keySet()) {
-			Registry.register(Registries.BLOCK, Identifier.of("green_screen", blocks.get(block)), block);
-			Registry.register(Registries.ITEM, Identifier.of("green_screen", blocks.get(block)),
-				new BlockItem(block, new Item.Settings()));
-			ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL_BLOCKS).register(entries -> entries.addItem(block.asItem()));
-		}
+		CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.BUILDING_BLOCKS).register((creativeTab) -> {
+			creativeTab.accept(RED_SCREEN.asItem());
+			creativeTab.accept(GREEN_SCREEN.asItem());
+			creativeTab.accept(BLUE_SCREEN.asItem());
+		});
 	}
 }
